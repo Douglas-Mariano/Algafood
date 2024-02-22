@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,10 +36,15 @@ public class PermissaoRepositoryImpl implements PermissaoRepository {
 	}
 	
 	@Transactional
-	@Override
-	public void remover(Permissao permissao) {
-		permissao = buscar(permissao.getId());
-		manager.remove(permissao);
-	}
+    @Override
+    public void remover(Long id) {
+        Permissao permissao = buscar(id);
+        
+        if (permissao == null) {
+            throw new EmptyResultDataAccessException(1);
+        }
+        
+        manager.remove(permissao);
+    }
 
 }
