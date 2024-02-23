@@ -2,7 +2,6 @@ package com.algaworks.algafood.infrastructure.repository;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.EntityManager;
