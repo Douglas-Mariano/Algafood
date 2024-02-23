@@ -7,7 +7,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.domain.model.Cozinha;
@@ -38,5 +37,10 @@ public class TesteController {
 	@GetMapping("/restaurantes/taxa")
 	public List<Restaurante> restaurantePorTaxaFrete(BigDecimal taxaInicial, BigDecimal taxaFinal) {
 		return restauranteRepository.findByTaxaFreteBetween(taxaInicial, taxaFinal);
+	}
+	
+	@GetMapping("/retaurantes/por-nome")
+	public List<Restaurante> consultarRestaurantePorNome(String nome, Long cozinhaId) {
+		return restauranteRepository.consultarPorNome(nome, cozinhaId);
 	}
 }
