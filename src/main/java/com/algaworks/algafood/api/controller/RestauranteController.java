@@ -3,7 +3,6 @@ package com.algaworks.algafood.api.controller;
 import java.util.List;
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,17 +34,20 @@ import com.fasterxml.jackson.annotation.JsonView;
 @RequestMapping(value = "/restaurantes")
 public class RestauranteController {
 
-	@Autowired
-	private RestauranteRepository restauranteRepository;
+	private final RestauranteRepository restauranteRepository;
+	private final CadastroRestauranteService cadastroRestaurante;
+	private final RestauranteModelAssembler restauranteModelAssembler;
+	private final RestauranteInputDisassembler restauranteInputDisassembler;
 
-	@Autowired
-	private CadastroRestauranteService cadastroRestaurante;
-
-	@Autowired
-	private RestauranteModelAssembler restauranteModelAssembler;
-
-	@Autowired
-	private RestauranteInputDisassembler restauranteInputDisassembler;
+	public RestauranteController(RestauranteRepository restauranteRepository,
+			CadastroRestauranteService cadastroRestaurante, 
+			RestauranteModelAssembler restauranteModelAssembler,
+			RestauranteInputDisassembler restauranteInputDisassembler) {
+		this.restauranteRepository = restauranteRepository;
+		this.cadastroRestaurante = cadastroRestaurante;
+		this.restauranteModelAssembler = restauranteModelAssembler;
+		this.restauranteInputDisassembler = restauranteInputDisassembler;
+	}
 
 	@JsonView(RestauranteView.Resumo.class)
 	@GetMapping
