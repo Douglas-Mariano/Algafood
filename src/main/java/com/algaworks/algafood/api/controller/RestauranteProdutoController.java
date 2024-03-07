@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,26 +29,37 @@ import com.algaworks.algafood.domain.service.CadastroRestauranteService;
 @RequestMapping("/restaurantes/{restauranteId}/produtos")
 public class RestauranteProdutoController {
 
-	@Autowired
-	private ProdutoRepository produtoRepository;
+	private final ProdutoRepository produtoRepository;
+	private final CadastroProdutoService cadastroProduto;
+	private final CadastroRestauranteService cadastroRestaurante;
+	private final ProdutoModelAssembler produtoModelAssembler;
+	private final ProdutoInputDisassembler produtoInputDisassembler;
 
-	@Autowired
-	private CadastroProdutoService cadastroProduto;
-
-	@Autowired
-	private CadastroRestauranteService cadastroRestaurante;
-
-	@Autowired
-	private ProdutoModelAssembler produtoModelAssembler;
-
-	@Autowired
-	private ProdutoInputDisassembler produtoInputDisassembler;
+	public RestauranteProdutoController(ProdutoRepository produtoRepository, 
+			CadastroProdutoService cadastroProduto,
+			CadastroRestauranteService cadastroRestaurante, 
+			ProdutoModelAssembler produtoModelAssembler,
+			ProdutoInputDisassembler produtoInputDisassembler) {
+		this.produtoRepository = produtoRepository;
+		this.cadastroProduto = cadastroProduto;
+		this.cadastroRestaurante = cadastroRestaurante;
+		this.produtoModelAssembler = produtoModelAssembler;
+		this.produtoInputDisassembler = produtoInputDisassembler;
+	}
 
 	@GetMapping
-	public List<ProdutoModel> listar(@PathVariable Long restauranteId) {
+	public List<ProdutoModel> listar(@PathVariable Long restauranteId,
+			@RequestParam(required = false) Boolean incluirInativos) {
 		Restaurante restaurante = cadastroRestaurante.buscarOuFalhar(restauranteId);
+		List<Produto> todosProdutos;
 
-		return produtoModelAssembler.toCollectionModel(produtoRepository.findByRestaurante(restaurante));
+		if (Boolean.TRUE.equals(incluirInativos)) {
+			todosProdutos = produtoRepository.findTodosByRestaurante(restaurante);
+		} else {
+			todosProdutos = produtoRepository.findAtivosByRestaurante(restaurante);
+		}
+
+		return produtoModelAssembler.toCollectionModel(todosProdutos);
 	}
 
 	@GetMapping("/{produtoId}")
