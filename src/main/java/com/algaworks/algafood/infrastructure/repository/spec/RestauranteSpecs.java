@@ -6,7 +6,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 import com.algaworks.algafood.domain.model.Restaurante;
 
-public class RestaurantesSpec {
+public class RestauranteSpecs {
 
 	public static Specification<Restaurante> comFreteGratis() {
 		return (root, query, builder) ->
