@@ -15,10 +15,12 @@ public class PedidoSpecs {
 		throw new IllegalStateException("Classe utilitária");
 	}
 
-	public static Specification<Pedido> usandoFilter(PedidoFilter filtro) {
+	public static Specification<Pedido> usandoFiltro(PedidoFilter filtro) {
 		return (root, query, builder) -> {
-			root.fetch("restaurante");
-			root.fetch("cliente");
+			if (Pedido.class.equals(query.getResultType())) {
+				root.fetch("restaurante").fetch("cozinha");
+				root.fetch("cliente");
+			}
 
 			var predicates = new ArrayList<Predicate>();
 
