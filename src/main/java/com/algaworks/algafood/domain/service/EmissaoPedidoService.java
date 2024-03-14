@@ -46,10 +46,6 @@ public class EmissaoPedidoService {
 		return pedidoRepository.save(pedido);
 	}
 
-	public Pedido buscarOuFalhar(String codigoPedido) {
-		return pedidoRepository.findByCodigo(codigoPedido).orElseThrow(() -> new PedidoNaoEncontradoException(codigoPedido));
-	}
-
 	private void validarPedido(Pedido pedido) {
 		Cidade cidade = cadastroCidade.buscarOuFalhar(pedido.getEnderecoEntrega().getCidade().getId());
 		Usuario cliente = cadastroUsuario.buscarOuFalhar(pedido.getCliente().getId());
@@ -60,7 +56,7 @@ public class EmissaoPedidoService {
 		pedido.setCliente(cliente);
 		pedido.setRestaurante(restaurante);
 		pedido.setFormaPagamento(formaPagamento);
-
+		
 		if (restaurante.naoAceitaFormaPagamento(formaPagamento)) {
 			throw new NegocioException(String.format("Forma de pagamento '%s' não é aceita por esse restaurante.",
 					formaPagamento.getDescricao()));
@@ -69,13 +65,18 @@ public class EmissaoPedidoService {
 
 	private void validarItens(Pedido pedido) {
 		pedido.getItens().forEach(item -> {
-			Produto produto = cadastroProduto.buscarOuFalhar(pedido.getRestaurante().getId(),
-					item.getProduto().getId());
-
+			Produto produto = cadastroProduto.buscarOuFalhar(
+					pedido.getRestaurante().getId(), item.getProduto().getId());
+			
 			item.setPedido(pedido);
 			item.setProduto(produto);
 			item.setPrecoUnitario(produto.getPreco());
 		});
+	}
+	
+	public Pedido buscarOuFalhar(String codigoPedido) {
+		return pedidoRepository.findByCodigo(codigoPedido)
+			.orElseThrow(() -> new PedidoNaoEncontradoException(codigoPedido));
 	}
 
 }

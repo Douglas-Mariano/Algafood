@@ -1,7 +1,4 @@
-//Baseado em: https://brightinventions.pl/blog/clear-database-in-spring-boot-tests/
-
 package com.algaworks.algafood.util;
-
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;

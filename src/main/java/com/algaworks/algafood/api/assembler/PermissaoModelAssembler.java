@@ -16,13 +16,15 @@ public class PermissaoModelAssembler {
 
 	@Autowired
 	private ModelMapper modelMapper;
-
+	
 	public PermissaoModel toModel(Permissao permissao) {
 		return modelMapper.map(permissao, PermissaoModel.class);
 	}
-
+	
 	public List<PermissaoModel> toCollectionModel(Collection<Permissao> permissoes) {
-		return permissoes.stream().map(permissao -> toModel(permissao)).collect(Collectors.toList());
+		return permissoes.stream()
+				.map(permissao -> toModel(permissao))
+				.collect(Collectors.toList());
 	}
-
+	
 }

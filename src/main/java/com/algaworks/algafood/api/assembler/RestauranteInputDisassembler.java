@@ -11,22 +11,24 @@ import com.algaworks.algafood.domain.model.Restaurante;
 
 @Component
 public class RestauranteInputDisassembler {
-	
+
 	@Autowired
 	private ModelMapper modelMapper;
-
+	
 	public Restaurante toDomainObject(RestauranteInput restauranteInput) {
 		return modelMapper.map(restauranteInput, Restaurante.class);
 	}
 	
 	public void copyToDomainObject(RestauranteInput restauranteInput, Restaurante restaurante) {
-		// Para conseguir alterar a cozinha associada ao restaurante
+		// Para evitar org.hibernate.HibernateException: identifier of an instance of 
+		// com.algaworks.algafood.domain.model.Cozinha was altered from 1 to 2
 		restaurante.setCozinha(new Cozinha());
 		
-		if(restaurante.getEndereco() != null) {
+		if (restaurante.getEndereco() != null) {
 			restaurante.getEndereco().setCidade(new Cidade());
 		}
 		
 		modelMapper.map(restauranteInput, restaurante);
 	}
+	
 }
