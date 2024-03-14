@@ -14,6 +14,7 @@ import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
 
 import com.algaworks.algafood.core.validation.Groups;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -21,7 +22,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 public class Cidade {
-	
+
 	@EqualsAndHashCode.Include
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +36,7 @@ public class Cidade {
 	@ConvertGroup(from = Default.class, to = Groups.EstadoId.class)
 	@NotNull
 	@ManyToOne
-	@JoinColumn(name= "estado_id", nullable = false)
+	@JoinColumn(nullable = false)
 	private Estado estado;
 
 }

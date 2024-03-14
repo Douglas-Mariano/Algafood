@@ -12,15 +12,18 @@ import com.algaworks.algafood.domain.model.Restaurante;
 
 @Component
 public class RestauranteModelAssembler {
-	
+
 	@Autowired
 	private ModelMapper modelMapper;
-
+	
 	public RestauranteModel toModel(Restaurante restaurante) {
 		return modelMapper.map(restaurante, RestauranteModel.class);
 	}
-
+	
 	public List<RestauranteModel> toCollectionModel(List<Restaurante> restaurantes) {
-		return restaurantes.stream().map(restaurante -> toModel(restaurante)).collect(Collectors.toList());
+		return restaurantes.stream()
+				.map(restaurante -> toModel(restaurante))
+				.collect(Collectors.toList());
 	}
+	
 }

@@ -12,9 +12,10 @@ public class CadastroPermissaoService {
 
 	@Autowired
 	private PermissaoRepository permissaoRepository;
-
+	
 	public Permissao buscarOuFalhar(Long permissaoId) {
 		return permissaoRepository.findById(permissaoId)
-				.orElseThrow(() -> new PermissaoNaoEncontradaException(permissaoId));
+			.orElseThrow(() -> new PermissaoNaoEncontradaException(permissaoId));
 	}
+	
 }
