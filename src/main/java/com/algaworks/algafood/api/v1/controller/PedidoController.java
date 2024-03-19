@@ -30,6 +30,7 @@ import com.algaworks.algafood.api.v1.openapi.controller.PedidoControllerOpenApi;
 import com.algaworks.algafood.core.data.PageWrapper;
 import com.algaworks.algafood.core.data.PageableTranslator;
 import com.algaworks.algafood.core.security.AlgaSecurity;
+import com.algaworks.algafood.core.security.CheckSecurity;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.filter.PedidoFilter;
@@ -64,6 +65,7 @@ public class PedidoController implements PedidoControllerOpenApi {
 	@Autowired
 	private AlgaSecurity algaSecurity;
 	
+	@CheckSecurity.Pedidos.PodePesquisar
 	@Override
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public PagedModel<PedidoResumoModel> pesquisar(PedidoFilter filtro, 
@@ -78,6 +80,7 @@ public class PedidoController implements PedidoControllerOpenApi {
 		return pagedResourcesAssembler.toModel(pedidosPage, pedidoResumoModelAssembler);
 	}
 	
+	@CheckSecurity.Pedidos.PodeCriar
 	@Override
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.CREATED)
@@ -96,6 +99,7 @@ public class PedidoController implements PedidoControllerOpenApi {
 		}
 	}
 	
+	@CheckSecurity.Pedidos.PodeBuscar
 	@Override
 	@GetMapping(value = "/{codigoPedido}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public PedidoModel buscar(@PathVariable String codigoPedido) {
