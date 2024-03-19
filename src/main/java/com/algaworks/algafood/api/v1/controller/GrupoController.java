@@ -29,7 +29,7 @@ import com.algaworks.algafood.domain.repository.GrupoRepository;
 import com.algaworks.algafood.domain.service.CadastroGrupoService;
 
 @RestController
-@RequestMapping(path = "/v1/grupos")
+@RequestMapping(path = "/v1/grupos", produces = MediaType.APPLICATION_JSON_VALUE)
 public class GrupoController implements GrupoControllerOpenApi {
 
 	@Autowired
@@ -46,7 +46,7 @@ public class GrupoController implements GrupoControllerOpenApi {
 	
 	@CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
 	@Override
-	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping
 	public CollectionModel<GrupoModel> listar() {
 		List<Grupo> todosGrupos = grupoRepository.findAll();
 		
@@ -55,7 +55,7 @@ public class GrupoController implements GrupoControllerOpenApi {
 	
 	@CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
 	@Override
-	@GetMapping(value = "/{grupoId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping("/{grupoId}")
 	public GrupoModel buscar(@PathVariable Long grupoId) {
 		Grupo grupo = cadastroGrupo.buscarOuFalhar(grupoId);
 		
@@ -64,7 +64,7 @@ public class GrupoController implements GrupoControllerOpenApi {
 	
 	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
 	@Override
-	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public GrupoModel adicionar(@RequestBody @Valid GrupoInput grupoInput) {
 		Grupo grupo = grupoInputDisassembler.toDomainObject(grupoInput);
@@ -76,7 +76,7 @@ public class GrupoController implements GrupoControllerOpenApi {
 	
 	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
 	@Override
-	@PutMapping(value = "/{grupoId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping("/{grupoId}")
 	public GrupoModel atualizar(@PathVariable Long grupoId,
 			@RequestBody @Valid GrupoInput grupoInput) {
 		Grupo grupoAtual = cadastroGrupo.buscarOuFalhar(grupoId);

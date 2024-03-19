@@ -14,7 +14,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 @ApiIgnore
 @RestController
-@RequestMapping(path = "/v1")
+@RequestMapping(path = "/v1", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RootEntryPointController {
 
 	@Autowired
@@ -23,7 +23,7 @@ public class RootEntryPointController {
 	@Autowired
 	private AlgaSecurity algaSecurity;
 	
-	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping
 	public RootEntryPointModel root() {
 		var rootEntryPointModel = new RootEntryPointModel();
 		

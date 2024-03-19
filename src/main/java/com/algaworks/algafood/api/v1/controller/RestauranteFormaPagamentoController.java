@@ -23,7 +23,8 @@ import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.service.CadastroRestauranteService;
 
 @RestController
-@RequestMapping(path = "/v1/restaurantes/{restauranteId}/formas-pagamento")
+@RequestMapping(path = "/v1/restaurantes/{restauranteId}/formas-pagamento",
+		produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestauranteFormaPagamentoController implements RestauranteFormaPagamentoControllerOpenApi {
 
 	@Autowired
@@ -40,7 +41,7 @@ public class RestauranteFormaPagamentoController implements RestauranteFormaPaga
 	
 	@CheckSecurity.Restaurantes.PodeConsultar
 	@Override
-	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping
 	public CollectionModel<FormaPagamentoModel> listar(@PathVariable Long restauranteId) {
 		Restaurante restaurante = cadastroRestaurante.buscarOuFalhar(restauranteId);
 		

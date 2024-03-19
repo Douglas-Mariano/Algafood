@@ -30,7 +30,7 @@ import com.algaworks.algafood.domain.repository.UsuarioRepository;
 import com.algaworks.algafood.domain.service.CadastroUsuarioService;
 
 @RestController
-@RequestMapping(path = "/v1/usuarios")
+@RequestMapping(path = "/v1/usuarios", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UsuarioController implements UsuarioControllerOpenApi {
 
 	@Autowired
@@ -47,7 +47,7 @@ public class UsuarioController implements UsuarioControllerOpenApi {
 	
 	@CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
 	@Override
-	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping
 	public CollectionModel<UsuarioModel> listar() {
 		List<Usuario> todasUsuarios = usuarioRepository.findAll();
 		
@@ -56,7 +56,7 @@ public class UsuarioController implements UsuarioControllerOpenApi {
 	
 	@CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
 	@Override
-	@GetMapping(value = "/{usuarioId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping("/{usuarioId}")
 	public UsuarioModel buscar(@PathVariable Long usuarioId) {
 		Usuario usuario = cadastroUsuario.buscarOuFalhar(usuarioId);
 		
@@ -64,7 +64,7 @@ public class UsuarioController implements UsuarioControllerOpenApi {
 	}
 	
 	@Override
-	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public UsuarioModel adicionar(@RequestBody @Valid UsuarioComSenhaInput usuarioInput) {
 		Usuario usuario = usuarioInputDisassembler.toDomainObject(usuarioInput);
@@ -75,7 +75,7 @@ public class UsuarioController implements UsuarioControllerOpenApi {
 	
 	@CheckSecurity.UsuariosGruposPermissoes.PodeAlterarUsuario
 	@Override
-	@PutMapping(value = "/{usuarioId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping("/{usuarioId}")
 	public UsuarioModel atualizar(@PathVariable Long usuarioId,
 			@RequestBody @Valid UsuarioInput usuarioInput) {
 		Usuario usuarioAtual = cadastroUsuario.buscarOuFalhar(usuarioId);

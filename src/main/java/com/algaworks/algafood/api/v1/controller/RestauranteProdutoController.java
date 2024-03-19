@@ -32,7 +32,8 @@ import com.algaworks.algafood.domain.service.CadastroProdutoService;
 import com.algaworks.algafood.domain.service.CadastroRestauranteService;
 
 @RestController
-@RequestMapping(path = "/v1/restaurantes/{restauranteId}/produtos")
+@RequestMapping(path = "/v1/restaurantes/{restauranteId}/produtos", 
+	produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestauranteProdutoController implements RestauranteProdutoControllerOpenApi {
 
 	@Autowired
@@ -55,7 +56,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
 	
 	@CheckSecurity.Restaurantes.PodeConsultar
 	@Override
-	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping
 	public CollectionModel<ProdutoModel> listar(@PathVariable Long restauranteId,
 			@RequestParam(required = false, defaultValue = "false") Boolean incluirInativos) {
 		Restaurante restaurante = cadastroRestaurante.buscarOuFalhar(restauranteId);
@@ -74,7 +75,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
 	
 	@CheckSecurity.Restaurantes.PodeConsultar
 	@Override
-	@GetMapping(value = "/{produtoId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping("/{produtoId}")
 	public ProdutoModel buscar(@PathVariable Long restauranteId, @PathVariable Long produtoId) {
 		Produto produto = cadastroProduto.buscarOuFalhar(restauranteId, produtoId);
 		
@@ -83,7 +84,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
 	
 	@CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
 	@Override
-	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public ProdutoModel adicionar(@PathVariable Long restauranteId,
 			@RequestBody @Valid ProdutoInput produtoInput) {
@@ -99,7 +100,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
 	
 	@CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
 	@Override
-	@PutMapping(value = "/{produtoId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping("/{produtoId}")
 	public ProdutoModel atualizar(@PathVariable Long restauranteId, @PathVariable Long produtoId,
 			@RequestBody @Valid ProdutoInput produtoInput) {
 		Produto produtoAtual = cadastroProduto.buscarOuFalhar(restauranteId, produtoId);

@@ -17,7 +17,7 @@ import com.algaworks.algafood.domain.model.Permissao;
 import com.algaworks.algafood.domain.repository.PermissaoRepository;
 
 @RestController
-@RequestMapping(path = "/v1/permissoes")
+@RequestMapping(path = "/v1/permissoes", produces = MediaType.APPLICATION_JSON_VALUE)
 public class PermissaoController implements PermissaoControllerOpenApi {
 
 	@Autowired
@@ -28,7 +28,7 @@ public class PermissaoController implements PermissaoControllerOpenApi {
 	
 	@CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
 	@Override
-	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping
 	public CollectionModel<PermissaoModel> listar() {
 		List<Permissao> todasPermissoes = permissaoRepository.findAll();
 		

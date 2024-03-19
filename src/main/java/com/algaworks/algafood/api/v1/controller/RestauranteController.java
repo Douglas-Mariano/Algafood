@@ -38,7 +38,7 @@ import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.algaworks.algafood.domain.service.CadastroRestauranteService;
 
 @RestController
-@RequestMapping(path = "/v1/restaurantes")
+@RequestMapping(path = "/v1/restaurantes", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestauranteController implements RestauranteControllerOpenApi {
 
 	@Autowired
@@ -61,7 +61,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 	
 	@CheckSecurity.Restaurantes.PodeConsultar
 	@Override
-	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping
 	public CollectionModel<RestauranteBasicoModel> listar() {
 		return restauranteBasicoModelAssembler
 				.toCollectionModel(restauranteRepository.findAll());
@@ -69,7 +69,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 	
 	@CheckSecurity.Restaurantes.PodeConsultar
 	@Override
-	@GetMapping(params = "projecao=apenas-nome", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(params = "projecao=apenas-nome")
 	public CollectionModel<RestauranteApenasNomeModel> listarApenasNomes() {
 		return restauranteApenasNomeModelAssembler
 				.toCollectionModel(restauranteRepository.findAll());
@@ -77,7 +77,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 	
 	@CheckSecurity.Restaurantes.PodeConsultar
 	@Override
-	@GetMapping(value = "/{restauranteId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping("/{restauranteId}")
 	public RestauranteModel buscar(@PathVariable Long restauranteId) {
 		Restaurante restaurante = cadastroRestaurante.buscarOuFalhar(restauranteId);
 		
@@ -86,7 +86,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 	
 	@CheckSecurity.Restaurantes.PodeGerenciarCadastro
 	@Override
-	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public RestauranteModel adicionar(@RequestBody @Valid RestauranteInput restauranteInput) {
 		try {
@@ -100,7 +100,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 	
 	@CheckSecurity.Restaurantes.PodeGerenciarCadastro
 	@Override
-	@PutMapping(value = "/{restauranteId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping("/{restauranteId}")
 	public RestauranteModel atualizar(@PathVariable Long restauranteId,
 			@RequestBody @Valid RestauranteInput restauranteInput) {
 		try {
