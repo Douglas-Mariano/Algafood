@@ -27,7 +27,7 @@ public class AuthorizedClientsController {
     private final OAuth2AuthorizationConsentService oAuth2AuthorizationConsentService;
     private final OAuth2AuthorizationService auth2AuthorizationService;
 
-	@GetMapping("/oauth2/authorized-clients")
+    @GetMapping("/oauth2/authorized-clients")
     public String clientList(Principal principal, Model model) {
         List<RegisteredClient> clients = oAuth2AuthorizationQueryService.listClientsWithConsent(principal.getName());
         model.addAttribute("clients", clients);

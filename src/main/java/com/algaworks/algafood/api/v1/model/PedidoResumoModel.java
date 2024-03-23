@@ -16,7 +16,7 @@ import java.util.UUID;
 public class PedidoResumoModel extends RepresentationModel<PedidoResumoModel> {
 
     @Schema(example = "04813f77-79b5-11ec-9a17-0242ac1b0002")
-    private UUID codigo;
+    private String codigo;
 
     @Schema(example = "298.90")
     private BigDecimal subtotal;

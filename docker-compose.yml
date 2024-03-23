@@ -7,10 +7,12 @@ networks:
 services:
   algafood-mysql:
     image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_ROOT_PASSWORD: ""
     ports:
-      - "13306:3306" # roda um mysql diferente quando levanta no docker-compose ups
+      - "13306:3306"
     networks:
       - algafood-network
       
@@ -26,7 +28,7 @@ services:
       DB_HOST: algafood-mysql
       SPRING_SESSION_STORE_TYPE: redis
       SPRING_REDIS_HOST: algafood-redis
-      SPRING_PROFILES_ACTIVE: development # Alterna entre ambiente de desenvolvimento e produção
+      SPRING_PROFILES_ACTIVE: development
     networks:
       - algafood-network
     depends_on:

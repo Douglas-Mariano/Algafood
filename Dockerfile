@@ -1,6 +1,4 @@
-FROM eclipse-temurin:17-jre-alpine
-
-RUN apk add --no-cache bash
+FROM openjdk:17
 
 WORKDIR /app
 

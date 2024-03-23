@@ -11,7 +11,7 @@ public class FakeEnvioEmailService implements EnvioEmailService {
 
 	@Autowired
 	private ProcessadorEmailTemplate processadorEmailTemplate;
-
+	
 	@Override
 	public void enviar(Mensagem mensagem) {
 		String corpo = processadorEmailTemplate.processarTemplate(mensagem);
